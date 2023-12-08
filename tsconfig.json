@@ -1,0 +1,46 @@
+{
+  "compilerOptions": {
+    "declaration": false,
+    "noImplicitAny": false,
+    "removeComments": true,
+    "noLib": false,
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "types": [
+      "vite/client",
+      "node",
+    ],
+    "target": "esnext",
+    "useDefineForClassFields": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "strict": true,
+    "jsx": "preserve",
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "lib": ["esnext", "dom"],
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["./src/*"],
+      "store/*": ["./src/store"],
+      "comps/*": ["./src/components"],
+      "utils/*": ["./src/utils"],
+      "modules/*": ["./src/modules/*"],
+      "router/*": ["./src/router/*"],
+      "widgets/*": ["src/widgets/*"],
+      "plugins/*": ["./src/plugins/*"],
+    }
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "./auto-imports.d.ts", // 全局API声明
+    "src/@types/index.d.ts",
+  ],
+  "exclude": ["node_modules"]
+}
