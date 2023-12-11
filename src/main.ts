@@ -7,7 +7,6 @@ import pinia from '@/store'
 
 import '@/assets/fonts'
 
-import ElementPlus from 'element-plus'
 import GlobalComponents from '@/components'
 import GlobalDirectives from '@/directives'
 import Plugins from '@/plugins'
@@ -20,7 +19,6 @@ app
   .use(pinia)
 
 app
-  .use(ElementPlus)
   .use(GlobalComponents)
   .use(GlobalDirectives)
   .use(Plugins)

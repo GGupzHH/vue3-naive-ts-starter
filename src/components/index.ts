@@ -1,4 +1,3 @@
-import ElIcon from './ElIcons'
 
 const component = {
   install: function(app: import('vue').App<any>): void {
@@ -6,8 +5,6 @@ const component = {
     for (const [, component] of Object.entries(components)) {
       app.component(component.default.name, component.default)
     }
-
-    app.use(ElIcon)
   }
 }
 

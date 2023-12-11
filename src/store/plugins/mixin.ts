@@ -1,4 +1,6 @@
-import { ElMessage } from 'element-plus'
+const { message } = createDiscreteApi(
+  ['message']
+)
 
 export function filterResponse(
   res: IRequestData,
@@ -11,11 +13,7 @@ export function filterResponse(
     } else {
       errorCb
         ? errorCb(res)
-        : ElMessage({
-          type: 'error',
-          message: res.msg,
-          showClose: true
-        })
+        : message.error(res.msg)
     }
     resolve(res)
   })

@@ -1,8 +1,6 @@
 
 @import '@/styles/global-class.scss';
-@import '@/styles/element-variables.scss';
 @import '@/styles/theme.scss';
-@import '@/styles/element-status.scss';
 
 body {
   width: 100vw;
@@ -104,17 +102,4 @@ svg {
 ::-webkit-scrollbar-track {
   background: rgba(#000, 0.06);
   border-radius: 3px;
-}
-
-// el-table 表格与表头错位 bug
-body .el-table th.gutter {
-  display: table-cell !important;
-}
-
-body .el-table colgroup.gutter {
-  display: table-cell !important;
-}
-
-table {
-  width: 100% !important;
 }

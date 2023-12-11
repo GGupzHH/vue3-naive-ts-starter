@@ -9,7 +9,6 @@
 </template>
 
 <script lang="ts">
-import { ElMessage } from 'element-plus'
 import SnippetModal from '../components/SnippetModal.vue'
 export default defineComponent({
   name: 'Test'
@@ -43,12 +42,10 @@ const handleClick = () => {
       }
 
       // 调接口 async await
-      ElMessage.info('等待3秒')
 
       return new Promise((resolve) => {
         // mock 等待 resp
         setTimeout(() => {
-          ElMessage.success('更新成功！')
           resolve('啦啦啦啦啦啦啦啦啦')
         }, 3000)
       })

@@ -2,6 +2,7 @@
 */
 import { Comment, defineAsyncComponent } from 'vue'
 const Layout = () => import('comps/Layout/index.vue')
+const CustomLayout = () => import('comps/Layout/customLayout.vue')
 import { RouteRecordRaw } from 'vue-router'
 
 /**
@@ -17,7 +18,14 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       {
         path: 'demo',
-        component: () => import('@/modules/DemoTest2/pages/list.vue')
+        component: CustomLayout,
+        children: [
+          {
+            path: '',
+            name: 'demo',
+            component: () => import('@/modules/DemoTest2/pages/list.vue'),
+          }
+        ]
       },
       {
         path: 'test',

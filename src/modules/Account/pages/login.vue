@@ -51,6 +51,9 @@ const userAccount = reactive({
   name: '',
   password: ''
 })
+const a = ref<string>([
+  '1'
+])
 
 const onSubmit = () => {
 

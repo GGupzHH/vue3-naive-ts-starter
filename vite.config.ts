@@ -2,10 +2,11 @@ import { defineConfig, Plugin } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { terser } from 'rollup-plugin-terser'
 import svgLoader from 'vite-svg-loader'
+import Components from 'unplugin-vue-components/vite'
 import UnoCSS from 'unocss/vite'
 
 import AutoImport from 'unplugin-auto-import/vite'
-import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 
 const path = require('path')
 
@@ -30,6 +31,15 @@ export default defineConfig(({ mode }) => ({
       include: [/\.[tj]sx?$/, /\.vue\??/],
       imports: [
         'vue',
+        {
+          'naive-ui': [
+            'useDialog',
+            'useMessage',
+            'useNotification',
+            'useLoadingBar',
+            'createDiscreteApi'
+          ]
+        },
         'vue-router',
         '@vueuse/core',
         {
@@ -53,7 +63,9 @@ export default defineConfig(({ mode }) => ({
             'App',
             'ComponentPublicInstance',
             'ComponentPublicInstanceCostom',
-            'DefineComponent'
+            'DefineComponent',
+            'Component',
+            'h'
           ],
           type: true
         },
@@ -72,7 +84,7 @@ export default defineConfig(({ mode }) => ({
           type: true
         }
       ],
-      resolvers: mode === 'development' ? [] : [ElementPlusResolver()],
+      resolvers: mode === 'development' ? [] : [NaiveUiResolver()],
       dirs: ['./src/hooks'],
       dts: './auto-imports.d.ts',
       eslintrc: {
@@ -86,7 +98,10 @@ export default defineConfig(({ mode }) => ({
           drop_console: true
         }
       }
-    ) as Plugin
+    ) as Plugin,
+    Components({
+      resolvers: [NaiveUiResolver()]
+    })
   ],
   server: {
     // proxy: {
@@ -140,7 +155,7 @@ export default defineConfig(({ mode }) => ({
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: "@import './src/styles/element-variables.scss';"
+        // additionalData: "@import './src/styles/element-variables.scss';"
       }
     }
   }
