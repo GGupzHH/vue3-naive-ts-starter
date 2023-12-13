@@ -13,7 +13,10 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
+import { EChartsType } from 'echarts'
+
 const proxy = getCurrentInstance()?.proxy
+import { useAccount } from 'modules/Account/store'
 const props = defineProps({
   options: {
     type: Object,
@@ -21,11 +24,16 @@ const props = defineProps({
   }
 })
 const echartsDom = ref(null)
+const useAccountStore = useAccount()
+const contentDeep = computed(() => useAccountStore.settingConfig.contentDeep)
 const { options } = toRefs(props)
-
-const drawEcharts = () => {
-  const myChart = echarts.init(echartsDom.value)
-  myChart.setOption({
+const myChart = ref<null | EChartsType>(null)
+const drawEcharts = (contentDeep: boolean) => {
+  myChart.value = echarts.init(echartsDom.value, contentDeep ? 'dark' : null, {
+    renderer: 'svg'
+  })
+  // myChart.clear()
+  myChart.value.setOption({
     tooltip: {
       trigger: 'axis'
     },
@@ -112,9 +120,10 @@ const drawEcharts = () => {
 }
 
 watch(
-  () => options.value,
+  () => ([options.value, contentDeep.value]),
   () => {
-    drawEcharts()
+    myChart.value && myChart.value.dispose()
+    drawEcharts(contentDeep.value)
   },
   {
     deep: true
@@ -122,7 +131,7 @@ watch(
 )
 
 onMounted(() => {
-  drawEcharts()
+  drawEcharts(contentDeep.value)
 })
 
 </script>

@@ -30,7 +30,19 @@
     placement="right"
   >
     <n-drawer-content title="主题配置">
-      配置内容
+      <ThemeMode />
+      <n-divider>
+        布局模式
+      </n-divider>
+      <n-space />
+      <n-divider>
+        系统主题
+      </n-divider>
+      <n-space />
+      <n-divider>
+        界面展示
+      </n-divider>
+      <n-space />
     </n-drawer-content>
   </n-drawer>
 </template>
@@ -45,13 +57,15 @@ import {
   ArrowsMaximize as ArrowsMaximizeIcon,
   ArrowsMinimize as ArrowsMinimizeIcon
 } from '@vicons/tabler'
+import { useAccount } from 'modules/Account/store'
+import ThemeMode from './components/themeMode.vue'
+
 export default defineComponent({
   name: 'HeaderActive'
 })
 </script>
 
 <script setup lang="ts">
-import { useAccount } from 'modules/Account/store'
 
 const proxy = getCurrentInstance()?.proxy
 const useAccountStore = useAccount()

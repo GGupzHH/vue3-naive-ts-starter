@@ -4,6 +4,8 @@
     "IModulesApiSuite": true,
     "IRequestData": true,
     "ObjectValueSuite": true,
-    "IStoreFilterCallBack": true
+    "IStoreFilterCallBack": true,
+    "UnionKey": true,
+    "Theme": true
   }
 }

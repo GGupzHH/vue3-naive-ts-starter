@@ -1,18 +1,28 @@
 <template>
+  <router-view />
   <n-config-provider
-    class="h-100%"
-    :theme="theme"
+    :theme="theme.naiveTheme"
+    :theme-overrides="theme.naiveThemeOverrides"
+    class="h-full"
   >
-    <router-view />
+    <naive-provider>
+      <router-view />
+    </naive-provider>
   </n-config-provider>
+<!--  <n-config-provider-->
+<!--      :theme="theme.naiveTheme"-->
+<!--      :theme-overrides="theme.naiveThemeOverrides"-->
+<!--      >-->
+
+<!--  </n-config-provider>-->
 </template>
 <script lang="ts">
-import { useAccount } from 'modules/Account/store'
 
 </script>
 <script lang="ts" setup>
-const useAccountStore = useAccount()
-const theme = computed(() => useAccountStore.settingConfig.theme)
+import { useThemeStore } from 'modules/Settings/store'
+const theme = useThemeStore()
+
 </script>
 <style lang="scss">
 @import '@/styles/index.scss'

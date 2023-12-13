@@ -57,9 +57,7 @@ declare global {
 
   /**
    * `error`: Response Status Code.
-   *
    * `data`: Response Body.
-   *
    * `msg`: Response Message.
    */
   interface IRequestData {
