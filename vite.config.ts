@@ -65,6 +65,7 @@ export default defineConfig(({ mode }) => ({
             'ComponentPublicInstanceCostom',
             'DefineComponent',
             'Component',
+            'PropType',
             'h'
           ],
           type: true

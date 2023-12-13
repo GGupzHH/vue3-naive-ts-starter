@@ -1,8 +1,10 @@
 <template>
-  <n-space>
+  <div class="h-full flex items-center justify-center">
     <HeaderActive/>
     <HeaderAccount/>
-  </n-space>
+  </div>
+  <!-- <n-space align="center">
+  </n-space> -->
 </template>
 
 <script lang="ts">

@@ -34,6 +34,17 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: 'login',
         component: () => import('@/modules/Account/pages/login.vue')
+      },
+      {
+        path: 'monitor',
+        component: CustomLayout,
+        children: [
+          {
+            path: '',
+            name: 'monitor',
+            component: () => import('@/modules/Monitor/pages/index.vue')
+          }
+        ]
       }
     ]
   },
