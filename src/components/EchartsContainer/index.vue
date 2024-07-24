@@ -7,16 +7,16 @@
 
 <script lang="ts">
 import * as echarts from 'echarts'
+import { EChartsType } from 'echarts'
+import { useTheme } from 'modules/Settings/store'
+import echartsDarkTheme from './dark.project.json'
 export default defineComponent({
   name: 'EchartsContainer'
 })
 </script>
 
 <script setup lang="ts">
-import { EChartsType } from 'echarts'
-
 const proxy = getCurrentInstance()?.proxy
-import { useAccount } from 'modules/Account/store'
 const props = defineProps({
   options: {
     type: Object,
@@ -24,106 +24,30 @@ const props = defineProps({
   }
 })
 const echartsDom = ref(null)
-const useAccountStore = useAccount()
-const contentDeep = computed(() => useAccountStore.settingConfig.contentDeep)
+const useThemeStore = useTheme()
+const darkMode = computed(() => useThemeStore.darkMode)
 const { options } = toRefs(props)
-const myChart = ref<null | EChartsType>(null)
+let myChart = reactive<any>({})
+echarts.registerTheme('darkCustom', echartsDarkTheme)
 const drawEcharts = (contentDeep: boolean) => {
-  myChart.value = echarts.init(echartsDom.value, contentDeep ? 'dark' : null, {
+  myChart = echarts.init(echartsDom.value, contentDeep ? 'darkCustom' : null, {
     renderer: 'svg'
   })
-  // myChart.clear()
-  myChart.value.setOption({
-    tooltip: {
-      trigger: 'axis'
-    },
-    xAxis: {
-      type: 'category',
-      boundaryGap: false,
-      data: [
-        '2019-10-10',
-        '2019-10-11',
-        '2019-10-12',
-        '2019-10-13',
-        '2019-10-14',
-        '2019-10-15',
-        '2019-10-16',
-        '2019-10-17',
-        '2019-10-18'
-      ]
-    },
-    yAxis: {
-      type: 'value'
-    },
-    visualMap: {
-      type: 'piecewise',
-      show: false,
-      dimension: 1,
-      // seriesIndex: [0, 1], // 虽然可以指定多个series，但是线的颜色只能设置一条
-      seriesIndex: [0, 1],
-      pieces: [{
-        gt: 500, // 上限
-        color: 'red'
-      }, {
-        lt: 300, // 下限
-        color: 'yellow'
-      }],
-      outOfRange: { // 在选中范围外 的视觉元素，这里设置在正常范围内的图形颜色
-        color: 'blue'
-      }
-    },
-    series: [
-      {
-        name: '线1',
-        type: 'line',
-        smooth: false,
-        symbol: 'none',
-        lineStyle: {
-          // 这里不能设置颜色，不然会以这个为准，设置的范围变色将不起作用
-          width: 2
-        },
-        markLine: {
-          symbol: 'none',
-          label: {
-            show: false
-          },
-          lineStyle: {
-            color: 'red'
-          },
-          data: [
-            {
-              yAxis: 500
-            },
-            {
-              yAxis: 300
-            }
-          ]
-        },
-        data: [
-          200,
-          560,
-          750,
-          580,
-          250,
-          300,
-          450,
-          300,
-          100
-        ]
-      }
-    ]
-  })
+  // 通过主题设置图标颜色的  这里可能后续需要转入回调函数去处理
+  // options.value.visualMap.outOfRange.color = darkMode.value ? '#87f7cf' : '#3fb1e3'
+
+  myChart.setOption(options.value)
 
   window.addEventListener('resize', () => {
-    myChart.resize()
+    myChart?.resize()
   }, false)
 }
 
 watch(
-  () => ([options.value, contentDeep.value]),
+  () => ([options.value, darkMode.value]),
   () => {
-    myChart.value && myChart.value.dispose()
-    drawEcharts(contentDeep.value)
+    myChart.dispose && myChart.dispose()
+    drawEcharts(darkMode.value)
   },
   {
     deep: true
@@ -131,7 +55,7 @@ watch(
 )
 
 onMounted(() => {
-  drawEcharts(contentDeep.value)
+  drawEcharts(darkMode.value)
 })
 
 </script>

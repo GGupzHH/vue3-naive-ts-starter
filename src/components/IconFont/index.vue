@@ -1,9 +1,68 @@
+<script lang='ts'>
+import { defineComponent } from 'vue'
+
+export default defineComponent({
+  name: 'IconFont'
+})
+
+interface IconProps {
+  icon: string | null
+  shadow?: boolean
+  verticalCenter?: boolean
+  cursor?: boolean
+  disabled?: boolean
+}
+</script>
+
+<script setup lang='ts'>
+import { defineProps, defineEmits, toRefs, computed } from 'vue'
+
+// 直接在 withDefaults 中内联默认值
+const props = withDefaults(defineProps<IconProps>(), {
+  icon: null,
+  shadow: false,
+  verticalCenter: false,
+  cursor: false,
+  disabled: false
+})
+
+const emit = defineEmits(['click'])
+
+const getClassName = computed(() => {
+  const className: string[] = []
+  if (props.verticalCenter) {
+    className.push('middle')
+  }
+  if (props.cursor) {
+    className.push('cursor')
+  }
+  if (props.disabled) {
+    className.push('disabled')
+  }
+  return className
+})
+
+const handleClick = (): void => {
+  if (!props.disabled) {
+    emit('click')
+  }
+}
+
+const getAttrs = () => {
+  const attrs: { filter?: string; } = {}
+  if (props.shadow) {
+    attrs.filter = 'url(#drop-shadow)'
+  }
+  return attrs
+}
+</script>
+
 <template>
   <svg
     class="icon-font"
     aria-hidden="true"
     :class="getClassName"
-    @click="handleClick()"
+    @click="handleClick"
   >
     <filter
       id="drop-shadow"
@@ -29,88 +88,20 @@
         <feMergeNode in="SourceGraphic" />
       </feMerge>
     </filter>
-    <g
-      v-bind="getAttrs()"
-    >
+    <g v-bind="getAttrs()">
       <use :xlink:href="'#' + icon" />
     </g>
   </svg>
 </template>
 
-<script lang='ts'>
-
-export default defineComponent({
-  name: 'IconFont'
-})
-
-</script>
-
-<script setup lang='ts'>
-const props = defineProps({
-  icon: {
-    type: String,
-    default: ''
-  },
-  shadow: {
-    type: Boolean,
-    default: false
-  },
-  verticalCenter: {
-    type: Boolean,
-    default: false
-  },
-  cursor: {
-    type: Boolean,
-    default: false
-  },
-  disabled: {
-    type: Boolean,
-    default: false
-  }
-})
-
-const emit = defineEmits(['click'])
-
-const {
-  verticalCenter,
-  cursor,
-  shadow,
-  disabled
-} = toRefs(props)
-
-const getClassName = computed(() => {
-  const className:any[] = []
-  if (verticalCenter.value) {
-    className.push('middle')
-  }
-  if (cursor.value) {
-    className.push('cursor')
-  }
-  if (disabled.value) {
-    className.push('disabled')
-  }
-  return className
-})
-const handleClick = ():void => {
-  !disabled.value && emit('click')
-}
-
-const getAttrs = () => {
-  const attrs: { filter?: string; } = {}
-  shadow &&
-  (attrs.filter = 'url(#drop-shadow)')
-
-  return attrs
-}
-
-</script>
-
 <style lang="scss" scoped>
 .icon-font {
-  width: 1em; height: 1em;
+  width: 1em;
+  height: 1em;
   vertical-align: -0.15em;
   fill: currentColor;
   overflow: hidden;
+  color: rgb(var(--primary-color));
   &.middle {
     vertical-align: middle;
   }

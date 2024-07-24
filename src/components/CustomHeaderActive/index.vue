@@ -1,7 +1,7 @@
 <template>
   <div class="h-full flex items-center justify-center">
-    <HeaderActive/>
-    <HeaderAccount/>
+    <HeaderActive />
+    <HeaderAccount />
   </div>
   <!-- <n-space align="center">
   </n-space> -->
