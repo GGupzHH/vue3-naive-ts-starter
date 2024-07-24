@@ -1,6 +1,8 @@
 import type { GlobalThemeOverrides } from 'naive-ui'
 import { addColorAlpha, getColorPalette } from './color'
+import { cloneDeep } from 'lodash-es'
 import { sessionStg } from '@/utils/common/sessions'
+import { themeSetting } from 'modules/Settings/data'
 
 type ColorType = 'primary' | 'info' | 'success' | 'warning' | 'error'
 type ColorScene = '' | 'Suppl' | 'Hover' | 'Pressed' | 'Active'
@@ -34,7 +36,6 @@ export function initThemeSettings() {
 
 /** 获取主题颜色的各种场景对应的颜色 */
 function getThemeColors(colors: [ColorType, string][]) {
-  console.log(colors)
   const colorActions: ColorAction[] = [
     { scene: '',
       handler: color => color },
@@ -57,14 +58,13 @@ function getThemeColors(colors: [ColorType, string][]) {
       themeColor[colorKey] = action.handler(colorValue)
     })
   })
-  console.log(themeColor)
   return themeColor
 }
 
 /** 获取naive的主题颜色 */
 export function getNaiveThemeOverrides(colors: Record<ColorType, string>): GlobalThemeOverrides {
   const { primary, success, warning, error } = colors
-
+  console.log(colors)
   const info = colors.info
   // : getColorPalette(primary, 7)
 

@@ -4,14 +4,12 @@ export function transformObjectToOption<T extends object>(obj: T) {
     label
   })) as Common.OptionWithKey<keyof T>[]
 }
-export const themeLayoutModeLabels: Record<ThemeLayoutMode, string> = {
+export const themeLayoutModeLabels: Record<UnionKey.ThemeLayoutMode, string> = {
   vertical: '左侧菜单模式',
-  horizontal: '顶部菜单模式',
-  'vertical-mix': '左侧菜单混合模式',
-  'horizontal-mix': '顶部菜单混合模式'
+  horizontal: '顶部菜单模式'
 }
 export const themeLayoutModeOptions = transformObjectToOption(themeLayoutModeLabels)
-export const themeAnimateModeLabels: Record<ThemeAnimateMode, string> = {
+export const themeAnimateModeLabels: Record<UnionKey.ThemeAnimateMode, string> = {
   'zoom-fade': '渐变',
   'zoom-out': '闪现',
   'fade-slide': '滑动',
@@ -52,6 +50,7 @@ const themeColorList = [
 
 const defaultThemeSetting: Theme.Setting = {
   darkMode: false,
+  isScreen: false,
   followSystemTheme: true,
   isCustomizeDarkModeTransition: false,
   layout: {
@@ -75,14 +74,11 @@ const defaultThemeSetting: Theme.Setting = {
     inverted: false,
     height: 56,
     crumb: {
-      visible: true,
-      showIcon: true
+      visible: false
     }
   },
   tab: {
-    visible: true,
-    height: 44,
-    isCache: true
+    visible: false
   },
   sider: {
     inverted: false,

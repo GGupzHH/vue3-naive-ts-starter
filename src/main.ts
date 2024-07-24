@@ -11,6 +11,7 @@ import GlobalComponents from '@/components'
 import GlobalDirectives from '@/directives'
 import Plugins from '@/plugins'
 import 'virtual:uno.css'
+import '@/styles/transition.css'
 
 const app = createApp(App)
 

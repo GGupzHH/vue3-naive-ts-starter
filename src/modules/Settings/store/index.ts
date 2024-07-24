@@ -4,11 +4,11 @@ import {
   sessionStg,
   getNaiveThemeOverrides,
   initThemeSettings
-} from 'utils/common'
+} from '@/utils/common'
 
 type ThemeState = Theme.Setting
 
-export const useThemeStore = defineStore('theme-store', {
+export const useTheme = defineStore('theme-store', {
   state: (): ThemeState => initThemeSettings(),
   getters: {
     /** naiveUI的主题配置 */
@@ -27,6 +27,10 @@ export const useThemeStore = defineStore('theme-store', {
     }
   },
   actions: {
+    /** 全屏设置 */
+    setScreen() {
+      this.isScreen = !this.isScreen
+    },
     /** 重置theme状态 */
     resetThemeStore() {
       sessionStg.remove('themeSettings')
@@ -42,6 +46,8 @@ export const useThemeStore = defineStore('theme-store', {
     /** 设置暗黑模式 */
     setDarkMode(darkMode: boolean) {
       this.darkMode = darkMode
+      this.sider.inverted = darkMode
+      this.header.inverted = darkMode
     },
     /** 设置自动跟随系统主题 */
     setFollowSystemTheme(visible: boolean) {
@@ -101,21 +107,12 @@ export const useThemeStore = defineStore('theme-store', {
     },
     /** 设置头部面包屑可见 */
     setHeaderCrumbVisible(visible: boolean) {
+      console.log(visible)
       this.header.crumb.visible = visible
-    },
-    /** 设置头部面包屑图标可见 */
-    setHeaderCrumbIconVisible(visible: boolean) {
-      this.header.crumb.showIcon = visible
     },
     /** 设置多页签可见 */
     setTabVisible(visible: boolean) {
       this.tab.visible = visible
-    },
-    /** 设置多页签高度 */
-    setTabHeight(height: number | null) {
-      if (height) {
-        this.tab.height = height
-      }
     },
     /** 设置多页签风格 */
     setTabMode(mode: UnionKey.ThemeTabMode) {
