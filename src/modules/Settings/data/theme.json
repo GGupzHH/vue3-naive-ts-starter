@@ -1,5 +1,6 @@
 {
   "darkMode": false,
+  "isScreen": false,
   "followSystemTheme": true,
   "isCustomizeDarkModeTransition": false,
   "layout": {
@@ -11,30 +12,12 @@
         "label": "左侧菜单模式"
       },
       {
-        "value": "vertical-mix",
-        "label": "左侧菜单混合模式"
-      },
-      {
         "value": "horizontal",
         "label": "顶部菜单模式"
-      },
-      {
-        "value": "horizontal-mix",
-        "label": "顶部菜单混合模式"
       }
     ]
   },
   "scrollMode": "content",
-  "scrollModeList": [
-    {
-      "value": "wrapper",
-      "label": "外层滚动"
-    },
-    {
-      "value": "content",
-      "label": "主体滚动"
-    }
-  ],
   "themeColor": "#646cff",
   "themeColorList": [
     "#1890ff",
@@ -80,20 +63,7 @@
     }
   },
   "tab": {
-    "visible": true,
-    "height": 44,
-    "mode": "chrome",
-    "modeList": [
-      {
-        "value": "chrome",
-        "label": "谷歌风格"
-      },
-      {
-        "value": "button",
-        "label": "按钮风格"
-      }
-    ],
-    "isCache": true
+    "visible": true
   },
   "sider": {
     "inverted": false,
@@ -102,23 +72,6 @@
     "mixWidth": 80,
     "mixCollapsedWidth": 48,
     "mixChildMenuWidth": 200
-  },
-  "menu": {
-    "horizontalPosition": "flex-start",
-    "horizontalPositionList": [
-      {
-        "value": "flex-start",
-        "label": "居左"
-      },
-      {
-        "value": "center",
-        "label": "居中"
-      },
-      {
-        "value": "flex-end",
-        "label": "居右"
-      }
-    ]
   },
   "footer": {
     "visible": true,

@@ -55,16 +55,16 @@ const codeMessage: {
 // 创建axios实例
 const service: AxiosInstance = axios.create({
   // api 的 base_url
-  // baseURL: import.meta.env.VITE_BASE_API,
-  baseURL: '/api',
+  // baseURL: import.meta.env.MODE === 'development' ? '' : import.meta.env.VITE_BASE_API,
+  // baseURL: '/api',
   // 请求超时时间
   timeout: 6000000
 })
 
 // request拦截器
-service.interceptors.request.use<AxiosRequestConfig>(
+service.interceptors.request.use(
   request => {
-    const token: string | undefined = Cookie.get('token')
+    const token: string | undefined = Cookie.get('access_token')
 
     // Conversion of hump nomenclature
     if (
@@ -91,7 +91,7 @@ service.interceptors.request.use<AxiosRequestConfig>(
 )
 
 // respone拦截器
-service.interceptors.response.use<AxiosResponse<IRequestData>>(
+service.interceptors.response.use(
   response => {
     /**
      * response data
@@ -103,8 +103,8 @@ service.interceptors.response.use<AxiosResponse<IRequestData>>(
      */
 
     const data: any = response.data
-    const msg: string = data.msg || ''
-    if (msg.indexOf('user not log in') !== -1 && data.error === -1) {
+    const message: string = data.message || ''
+    if (message.indexOf('user not log in') !== -1 && data.code === -1) {
       // TODO 写死的  之后要根据语言跳转
       errorRedirect('login')
       return
@@ -133,14 +133,21 @@ service.interceptors.response.use<AxiosResponse<IRequestData>>(
     } else if (data instanceof Blob) {
       return {
         data,
-        msg: '',
-        error: 0
+        message: '',
+        code: 0
+      }
+    }
+    if (data.code === (401 || 403)) {
+      return {
+        data: {},
+        code: data.code,
+        message: data.message
       }
     }
 
     // return camelizeKeys(data)
-    if (data.msg === null) {
-      data.msg = 'Unknown error'
+    if (data.message === null) {
+      data.message = 'Unknown error'
     }
     return data
   },
@@ -159,15 +166,15 @@ service.interceptors.response.use<AxiosResponse<IRequestData>>(
     if (error.response) {
       return {
         data: {},
-        error: error.response.status,
-        msg: codeMessage[error.response.status] || error.response.data.message
+        code: error.response.status,
+        message: codeMessage[error.response.status] || error.response.data.message
       }
     } else {
       // 某些特定的接口 failed 需要跳转
       return {
         data: {},
-        error: 5000,
-        msg: '服务请求不可用，请重试或检查您的网络。'
+        code: 5000,
+        message: '服务请求不可用，请重试或检查您的网络。'
       }
     }
   }

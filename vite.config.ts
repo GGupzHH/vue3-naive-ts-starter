@@ -1,29 +1,26 @@
-import { defineConfig, Plugin } from 'vite'
+import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import { terser } from 'rollup-plugin-terser'
 import svgLoader from 'vite-svg-loader'
 import Components from 'unplugin-vue-components/vite'
 import UnoCSS from 'unocss/vite'
-
 import AutoImport from 'unplugin-auto-import/vite'
 import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
+import path from 'path'
 
-const path = require('path')
-
-const htmlPlugin = () => {
-  return {
-    name: 'html-transform',
-    transformIndexHtml(html) {
-      return html.replace(
-        /<title>(.*?)<\/title>/,
-        '<title>UPro</title>'
-      )
-    }
+const htmlPlugin = () => ({
+  name: 'html-transform',
+  transformIndexHtml(html) {
+    return html.replace(/<title>(.*?)<\/title>/, '<title>FDC-缺陷分类监控系统</title>')
   }
-}
+})
+
 export default defineConfig(({ mode }) => ({
   plugins: [
-    vue() as Plugin,
+    vue({
+      script: {
+        defineModel: true
+      }
+    }),
     UnoCSS(),
     svgLoader(),
     htmlPlugin(),
@@ -32,60 +29,27 @@ export default defineConfig(({ mode }) => ({
       imports: [
         'vue',
         {
-          'naive-ui': [
-            'useDialog',
-            'useMessage',
-            'useNotification',
-            'useLoadingBar',
-            'createDiscreteApi'
-          ]
+          'naive-ui': ['useDialog', 'useMessage', 'useNotification', 'useLoadingBar', 'createDiscreteApi']
         },
         'vue-router',
         '@vueuse/core',
         {
           vue: ['createVNode', 'render'],
-          'vue-router': [
-            'createRouter',
-            'createWebHistory',
-            'useRouter',
-            'useRoute'
-          ]
-          // 全局使用 _.xxxx()
-          // 'lodash-es': [
-          //   // default imports
-          //   ['*', '_'] // import { * as _ } from 'lodash-es',
-          // ]
+          'vue-router': ['createRouter', 'createWebHistory', 'useRouter', 'useRoute'],
+          'lodash-es': [['*', '_']]
         },
-        // type import
         {
           from: 'vue',
-          imports: [
-            'App',
-            'ComponentPublicInstance',
-            'ComponentPublicInstanceCostom',
-            'DefineComponent',
-            'Component',
-            'PropType',
-            'h'
-          ],
+          imports: ['App', 'ComponentPublicInstance', 'DefineComponent', 'Component', 'PropType', 'h', 'defineModel'],
           type: true
         },
         {
           from: 'vue-router',
-          imports: [
-            'RouteRecordRaw',
-            'RouteLocationRaw',
-            'LocationQuery',
-            'NavigationFailure',
-            'RouteParams',
-            'RouteLocationNormalizedLoaded',
-            'RouteRecordName',
-            'NavigationGuard'
-          ],
+          imports: ['RouteRecordRaw', 'RouteLocationRaw', 'LocationQuery', 'NavigationFailure', 'RouteParams', 'RouteLocationNormalizedLoaded', 'RouteRecordName', 'NavigationGuard'],
           type: true
         }
       ],
-      resolvers: mode === 'development' ? [] : [NaiveUiResolver()],
+      resolvers: mode === 'development' ? [NaiveUiResolver()] : [],
       dirs: ['./src/hooks'],
       dts: './auto-imports.d.ts',
       eslintrc: {
@@ -93,71 +57,37 @@ export default defineConfig(({ mode }) => ({
       },
       vueTemplate: true
     }),
-    terser(
-      {
-        compress: {
-          drop_console: true
-        }
-      }
-    ) as Plugin,
     Components({
       resolvers: [NaiveUiResolver()]
     })
   ],
   server: {
-    // proxy: {
-    //   '/api': {
-    //     target: 'http://172.25.100.96/swgeneralplatform/api',
-    //     changeOrigin: true,
-    //     rewrite: (path) => path.replace(/^\/api/, '')
-    //   }
-    // }
+    proxy: {
+      '/api': {
+        // target: 'http://localhost:8088',
+        target: 'http://10.160.10.219:8088',
+        // target: 'http://10.200.214.244:8081',
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/api/, '/api')
+      }
+    }
   },
   resolve: {
-    alias: [
-      {
-        find: '@',
-        replacement: path.resolve(__dirname, 'src')
-      },
-      {
-        find: 'store',
-        replacement: path.resolve(__dirname, 'src/store')
-      },
-      {
-        find: 'comps',
-        replacement: path.resolve(__dirname, 'src/components')
-      },
-      {
-        find: 'utils',
-        replacement: path.resolve(__dirname, 'src/utils')
-      },
-      {
-        find: 'modules',
-        replacement: path.resolve(__dirname, 'src/modules')
-      },
-      {
-        find: 'router',
-        replacement: path.resolve(__dirname, 'src/router')
-      },
-      {
-        find: 'widgets',
-        replacement: path.resolve(__dirname, 'src/widgets')
-      },
-      {
-        find: 'plugins',
-        replacement: path.resolve(__dirname, 'src/plugins')
-      },
-      {
-        find: 'mixins',
-        replacement: path.resolve(__dirname, 'src/mixins')
-      }
-    ]
+    alias: {
+      '@': path.resolve(__dirname, 'src'),
+      'store': path.resolve(__dirname, 'src/store'),
+      'comps': path.resolve(__dirname, 'src/components'),
+      'utils': path.resolve(__dirname, 'src/utils'),
+      'modules': path.resolve(__dirname, 'src/modules'),
+      'router': path.resolve(__dirname, 'src/router'),
+      'widgets': path.resolve(__dirname, 'src/widgets'),
+      'plugins': path.resolve(__dirname, 'src/plugins'),
+      'mixins': path.resolve(__dirname, 'src/mixins')
+    }
   },
   css: {
     preprocessorOptions: {
-      scss: {
-        // additionalData: "@import './src/styles/element-variables.scss';"
-      }
+      scss: {}
     }
   }
 }))

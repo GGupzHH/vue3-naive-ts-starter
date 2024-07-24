@@ -8,12 +8,12 @@ export function filterResponse(
   errorCb?: IStoreFilterCallBack | undefined | null
 ) :Promise<IRequestData>{
   return new Promise((resolve) => {
-    if (res && res.error === 0) {
+    if (res && res.code === 200) {
       successCb && successCb(res)
     } else {
       errorCb
         ? errorCb(res)
-        : message.error(res.msg)
+        : message.error(res.message)
     }
     resolve(res)
   })

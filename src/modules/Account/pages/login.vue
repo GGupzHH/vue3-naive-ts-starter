@@ -3,43 +3,66 @@
     class="wrap-login w-100% h-100%"
   >
     <div class="wrap-login__content w-438px h-424px bg-white border-rd-12px absolute top-50% right-100px py-60px px-34px">
-      <div class="wrap-title flex flex-items-center">
+      <h1 class="text-center">FDC-缺陷分类监控系统</h1>
+      <div class="wrap-title flex flex-items-center m-t-12px">
         <LoginTitleSvg />
-        <span class="color-#303133 text-26px pl-12px">欢迎登录</span>
+        <span class="color-#303133 text-18px pl-12px">欢迎登录</span>
       </div>
-      <el-form
-        class="mt42px"
-        label-position="top"
-        label-width="100px"
+      <n-form
+        ref="formRef"
+        class="m-t-24px"
+        label-placement="left"
+        label-width="auto"
         :model="userAccount"
+        :rules="userAccountRules"
+        @submit.self="onSubmit"
       >
-        <el-form-item label="邮箱">
-          <el-input v-model="userAccount.name" />
-        </el-form-item>
-        <el-form-item label="密码">
-          <el-input
-            v-model="userAccount.password"
-            type="password"
+        <n-form-item
+          path="userName"
+        >
+          <n-input
+            v-model:value="userAccount.userName"
+            :autofocus="true"
+            placeholder="请输入用户名"
           />
-        </el-form-item>
-        <el-form-item>
-          <el-button
-            v-permission="'sys:sdsd:asdasd'"
-            class="w-screen py-14px"
+        </n-form-item>
+        <n-form-item
+          path="password"
+        >
+          <n-input
+            v-model:value="userAccount.password"
+            type="password"
+            show-password-on="mousedown"
+            placeholder="请输入密码"
+            @keydown.enter="onSubmit"
+          />
+        </n-form-item>
+        <div class="m-b-12px">
+          <n-checkbox v-model:checked="rememberPwd">
+            记住我
+          </n-checkbox>
+        </div>
+        <n-form-item>
+          <n-button
             type="primary"
-            size="large"
+            class="w-full"
             @click="onSubmit"
+            @keydown.enter="onSubmit"
           >
             登录
-          </el-button>
-        </el-form-item>
-      </el-form>
+          </n-button>
+        </n-form-item>
+      </n-form>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import LoginTitleSvg from '@/assets/svg/login_title.svg'
+import { FormInst, FormRules } from 'naive-ui'
+import { useAccount } from 'modules/Account/store'
+
+import Cookie from 'js-cookie'
 export default defineComponent({
   name: 'Login'
 })
@@ -47,16 +70,56 @@ export default defineComponent({
 
 <script setup lang="ts">
 const proxy = getCurrentInstance()?.proxy
+const useAccountStore = useAccount()
+
+const formRef = ref<FormInst | null>(null)
+const message = useMessage()
+const router = useRouter()
 const userAccount = reactive({
-  name: '',
+  userName: '',
   password: ''
 })
-const a = ref<string>([
-  '1'
-])
+const userAccountRules: FormRules = reactive({
+  userName: [
+    {
+      required: true,
+      message: '请输入用户名',
+      trigger: ['input', 'blur']
+    }
+  ],
+  password: [
+    {
+      required: true,
+      message: '请输入密码',
+      trigger: ['input', 'blur']
+    }
+  ]
+})
 
-const onSubmit = () => {
+const rememberPwd = ref(false)
 
+const onSubmit = (e: MouseEvent) => {
+  e.preventDefault()
+  formRef.value?.validate(async(errors) => {
+    if (errors) {
+      message.error('校验通过了')
+    } else {
+      const formData = new FormData()
+      formData.append('username', userAccount.userName)
+      formData.append('password', userAccount.password)
+      const res = await useAccountStore.login(formData)
+      if (res.code === 200) {
+        Cookie.set('access_token', res.data.access_token)
+        Cookie.set('userName', res.data.userName)
+        Cookie.set('refresh_token', res.data.refresh_token)
+        message.success('登录成功')
+
+        router.push({
+          path: '/'
+        })
+      }
+    }
+  })
 }
 </script>
 
