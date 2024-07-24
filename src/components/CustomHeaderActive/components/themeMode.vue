@@ -11,7 +11,7 @@
       {{ modeConfigItem.title }}
       <n-switch
         :default-value="modeConfigItem.value"
-        @change="modeConfigItem.handle"
+        @update:value="modeConfigItem.handle"
       >
         <template #checked>
           <n-icon
@@ -36,38 +36,43 @@ import {
   Sunny as SunnyIcon,
   MoonOutline as MoonOutlineIcon
 } from '@vicons/ionicons5'
-import { useAccount } from 'modules/Account/store'
+import { useTheme } from 'modules/Settings/store'
 
 </script>
 <script setup lang="ts">
 
 const proxy = getCurrentInstance()?.proxy
-const useAccountStore = useAccount()
-const themeModeConfig = computed(() => useAccountStore.settingConfig)
+const useThemeStore = useTheme()
+const darkMode = computed(() => useThemeStore.darkMode)
+const sider = computed(() => useThemeStore.sider)
+const header = computed(() => useThemeStore.header)
 const modeConfigList = ref([
   {
     title: '主题',
-    value: themeModeConfig.value.theme,
+    value: darkMode.value,
     prefixIcon: markRaw(SunnyIcon),
     suffixIcon: markRaw(MoonOutlineIcon),
     handle: () => {
-      useAccountStore.setTheme()
-    }
-  },
-  {
-    title: '侧边栏深色',
-    value: themeModeConfig.value.sidebarDeep,
-    handle: () => {
-      useAccountStore.setSidebarTheme()
-    }
-  },
-  {
-    title: '头部深色',
-    value: themeModeConfig.value.headerDeep,
-    handle: () => {
-      useAccountStore.setHeaderTheme()
+      useThemeStore.setDarkMode(!darkMode.value)
+      console.log(modeConfigList.value)
+      modeConfigList.value[1].value = !darkMode.value
+      modeConfigList.value[2].value = !darkMode.value
     }
   }
+  // {
+  //   title: '侧边栏深色',
+  //   value: sider.value.inverted,
+  //   handle: () => {
+  //     useThemeStore.setSiderInverted(!sider.value.inverted)
+  //   }
+  // },
+  // {
+  //   title: '头部深色',
+  //   value: header.value.inverted,
+  //   handle: () => {
+  //     useThemeStore.setHeaderInverted(!header.value.inverted)
+  //   }
+  // }
 ])
 </script>
 

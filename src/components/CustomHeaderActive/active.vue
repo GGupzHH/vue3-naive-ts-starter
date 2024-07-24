@@ -3,9 +3,11 @@
     <div
       v-for="(settingConfigItem, settingConfigIndex) in settingConfigList"
       :key="settingConfigIndex"
-      class="p-x-6px flex
+      class="wrap-custom-header__active__item p-x-6px flex
       items-center justify-center
-       cursor-pointer hover:c-red"
+       cursor-pointer"
+      :class="!darkMode ? 'hover:bg-#f6f6f6' : 'hover:bg-#333 hover:text-#fff'"
+      @click="settingConfigItem.handle"
     >
       <n-tooltip
         placement="bottom"
@@ -16,35 +18,30 @@
             mark-raw
             :component="settingConfigItem.icon"
             size="20"
-            @click="settingConfigItem.handle"
           />
         </template>
         <span>{{ settingConfigItem.doc }}</span>
       </n-tooltip>
     </div>
   </div>
-
-  <n-drawer
-    v-model:show="settingDrawerActive"
-    :width="502"
-    placement="right"
+  <n-config-provider
+    :theme="themeStore.naiveTheme"
   >
-    <n-drawer-content title="主题配置">
-      <ThemeMode />
-      <n-divider>
-        布局模式
-      </n-divider>
-      <n-space />
-      <n-divider>
-        系统主题
-      </n-divider>
-      <n-space />
-      <n-divider>
-        界面展示
-      </n-divider>
-      <n-space />
-    </n-drawer-content>
-  </n-drawer>
+    <n-drawer
+      v-model:show="settingDrawerActive"
+      :width="330"
+      placement="right"
+    >
+      <n-drawer-content title="主题配置">
+        <theme-mode />
+        <layout-mode />
+        <theme-color-select />
+        <page-view />
+        <n-space />
+        <n-space />
+      </n-drawer-content>
+    </n-drawer>
+  </n-config-provider>
 </template>
 
 <script lang="ts">
@@ -57,8 +54,9 @@ import {
   ArrowsMaximize as ArrowsMaximizeIcon,
   ArrowsMinimize as ArrowsMinimizeIcon
 } from '@vicons/tabler'
-import { useAccount } from 'modules/Account/store'
-import ThemeMode from './components/themeMode.vue'
+import LayoutMode from './components/layout-mode.vue'
+import PageView from './components/page-view.vue'
+import { useTheme } from 'modules/Settings/store'
 
 export default defineComponent({
   name: 'HeaderActive'
@@ -67,28 +65,32 @@ export default defineComponent({
 
 <script setup lang="ts">
 
+import ThemeColorSelect from '@/components/CustomHeaderActive/components/themeColorSelect.vue'
+
 const proxy = getCurrentInstance()?.proxy
-const useAccountStore = useAccount()
-const settingConfig = computed(() => useAccountStore.settingConfig)
+const themeStore = useTheme()
+const isScreen = computed(() => themeStore.isScreen)
+const darkMode = computed(() => themeStore.darkMode)
 const settingDrawerActive = ref(false)
 const settingConfigList = ref([
   {
-    icon: computed(() => settingConfig.value.theme ? markRaw(MoonOutlineIcon) : markRaw(SunnyIcon)),
+    icon: computed(() => darkMode.value ? markRaw(MoonOutlineIcon) : markRaw(SunnyIcon)),
     doc: '主题切换',
     handle: () => {
-      useAccountStore.setTheme()
+      themeStore.setDarkMode(!darkMode.value)
     }
   },
   {
-    icon: computed(() => settingConfig.value.isScreen ? markRaw(ArrowsMinimizeIcon) : markRaw(ArrowsMaximizeIcon)),
+    icon: computed(() => isScreen.value ? markRaw(ArrowsMinimizeIcon) : markRaw(ArrowsMaximizeIcon)),
     doc: '全屏',
     handle: () => {
-      if (settingConfig.value.isScreen) {
+      console.log(isScreen.value)
+      if (isScreen.value) {
         document.exitFullscreen()
       } else {
         document.documentElement.requestFullscreen()
       }
-      useAccountStore.setScreen()
+      themeStore.setScreen()
     }
   },
   {
@@ -107,6 +109,10 @@ const handleSetting = () => {
 
 <style scoped lang="scss">
 .wrap-custom-header__active {
-
+  --uno: h-full;
+  .wrap-custom-header__active__item {
+    --uno: h-full;
+    transition: all .5s;
+  }
 }
 </style>
