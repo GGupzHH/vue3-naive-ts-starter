@@ -26,7 +26,7 @@ declare namespace UnionKey {
      * - vertical-mix: 左侧菜单混合模式
      * - horizontal-mix: 顶部菜单混合模式
      */
-    type ThemeLayoutMode = 'vertical' | 'horizontal' | 'vertical-mix' | 'horizontal-mix'
+    type ThemeLayoutMode = 'vertical' | 'horizontal'
 
     /**
      * 内容溢出时的出现滚动条的方式
@@ -68,6 +68,8 @@ declare namespace Theme {
     interface Setting {
         /** 暗黑模式 */
         darkMode: boolean
+        /** 全屏 */
+        isScreen: boolean
         /** 是否自动跟随系统主题 */
         followSystemTheme: boolean
         /** 自定义暗黑动画过渡 */
@@ -76,8 +78,6 @@ declare namespace Theme {
         layout: Layout
         /** 滚动模式 */
         scrollMode: UnionKey.ThemeScrollMode
-        /** 滚动模式列表 */
-        scrollModeList: Common.OptionWithKey<UnionKey.ThemeScrollMode>[]
         /** 主题颜色 */
         themeColor: string
         /** 主题颜色列表 */
@@ -92,12 +92,10 @@ declare namespace Theme {
         showReload: boolean
         /** 头部样式 */
         header: Header
-        /** 标多页签样式 */
+        /** 页内tab */
         tab: Tab
         /** 侧边栏样式 */
         sider: Sider
-        /** 菜单样式 */
-        menu: Menu
         /** 底部样式 */
         footer: Footer
         /** 页面样式 */
@@ -138,21 +136,12 @@ declare namespace Theme {
     interface Crumb {
         /** 面包屑可见 */
         visible: boolean
-        /** 显示图标 */
-        showIcon: boolean
     }
 
     /** 标多页签样式 */
     export interface Tab {
         /** 多页签可见 */
         visible: boolean
-        /** 多页签高度 */
-        height: number
-        /** 多页签风格 */
-        mode: UnionKey.ThemeTabMode
-        /** 多页签风格列表 */
-        modeList: Common.OptionWithKey<UnionKey.ThemeTabMode>[]
-        /** 开启多页签缓存 */
         isCache: boolean
     }
 
@@ -202,5 +191,53 @@ declare namespace Theme {
         animateMode: UnionKey.ThemeAnimateMode
         /** 动画类型列表 */
         animateModeList: Common.OptionWithKey<UnionKey.ThemeAnimateMode>[]
+    }
+}
+
+interface Window {
+    $loadingBar?: import('naive-ui').LoadingBarProviderInst
+    $dialog?: import('naive-ui').DialogProviderInst
+    $message?: import('naive-ui').MessageProviderInst
+    $notification?: import('naive-ui').NotificationProviderInst
+}
+
+interface ViewTransition {
+    ready: Promise<void>
+}
+
+interface Document {
+    startViewTransition?: (callback: () => Promise<void> | void) => ViewTransition
+}
+
+/** 通用类型 */
+declare namespace Common {
+    /**
+     * 策略模式
+     * [状态, 为true时执行的回调函数]
+     */
+    type StrategyAction = [boolean, () => void]
+
+    /** 选项数据 */
+    type OptionWithKey<K> = { value: K; label: string; }
+}
+
+/** 构建时间 */
+declare const PROJECT_BUILD_TIME: string
+
+declare namespace StorageInterface {
+    /** localStorage的存储数据的类型 */
+    interface Session {
+        /** 主题颜色 */
+        themeColor: string
+        /** 主题配置 */
+        themeSettings: Theme.Setting
+    }
+
+    /** localStorage的存储数据的类型 */
+    interface Local {
+        /** 用户token */
+        token: string
+        /** 用户刷新token */
+        refreshToken: string
     }
 }

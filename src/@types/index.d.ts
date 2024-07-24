@@ -61,9 +61,10 @@ declare global {
    * `msg`: Response Message.
    */
   interface IRequestData {
-    error: number
-    data: any
     msg: string
+    code: number
+    data: any
+    message: string
   }
 
   /**
@@ -74,7 +75,6 @@ declare global {
   /**
    * Store FilterResponse Callback Type.
    */
-  type IStoreFilterCallBack = (res: IRequestData) => Promise<IRequestData>
+  type IStoreFilterCallBack = (res: IRequestData) => Promise<IRequestData> | any
 
 }
-
