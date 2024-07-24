@@ -1,61 +1,37 @@
-
 import { defineStore } from 'pinia'
 import accountApi from '@/modules/Account/api'
-import {getNaiveThemeOverrides} from "@/utils/common/helpers"
-interface ISettingConfig {
-  theme: boolean
-  isScreen: boolean
-  sidebarDeep: boolean
-  headerDeep: boolean
-  contentDeep: boolean
-}
 
 export const useAccount = defineStore('Account', {
   state: () => {
+    const menuList = ref<SystemManagement.Menu.SystemMenuTree | null>(null)
+    const userInfo = ref<Account.UserInfo | null>(null)
     return {
-      settingConfig: {
-        theme: false,
-        isScreen: false,
-        sidebarDeep: false,
-        headerDeep: false,
-        contentDeep: false
-      }
-    }
-  },
-  getters: {
-    /** naiveUI的主题配置 */
-    naiveThemeOverrides(state) {
-      const overrides = getNaiveThemeOverrides({primary: state.themeColor, ...state.otherColor});
-      return overrides;
+      userInfo,
+      menuList
     }
   },
   actions: {
-    setTheme() {
-      if (this.settingConfig.theme) {
-        this.settingConfig.sidebarDeep = false
-        this.settingConfig.headerDeep = false
-        this.settingConfig.contentDeep = false
-      } else {
-        this.settingConfig.sidebarDeep = true
-        this.settingConfig.headerDeep = true
-        this.settingConfig.contentDeep = true
-      }
-      this.settingConfig.theme = !this.settingConfig.theme
-    },
-    setSidebarTheme() {
-      if (this.settingConfig.theme) return
-      this.settingConfig.sidebarDeep = !this.settingConfig.sidebarDeep
-    },
-    setHeaderTheme() {
-      if (this.settingConfig.theme) return
-      this.settingConfig.headerDeep = !this.settingConfig.headerDeep
-    },
-    setScreen() {
-      this.settingConfig.isScreen = !this.settingConfig.isScreen
-    },
     async getDemoTestList() {
       const res = await accountApi.getDemoTestListID('123')
       return this.filterResponse(res)
+    },
+    async login(data: any) {
+      const res = await accountApi.login(data)
+      return this.filterResponse(res)
+    },
+    async getUserInfo() {
+      const res = await accountApi.getUserInfoApi()
+      return this.filterResponse(res)
+    },
+    async logout() {
+      const res = await accountApi.logout()
+      return this.filterResponse(res)
+    },
+    async getMenuListApi() {
+      const res = await accountApi.getMenuList()
+      return this.filterResponse(res, ({ data }) => {
+        return this.menuList = data
+      })
     }
   }
 })

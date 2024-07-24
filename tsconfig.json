@@ -41,6 +41,8 @@
     "src/**/*.vue",
     "./auto-imports.d.ts", // 全局API声明
     "src/@types/index.d.ts",
+    "src/@types/naive-ui.d.ts",
+    "src/modules/**/types/index.d.ts"
   ],
   "exclude": ["node_modules"]
 }

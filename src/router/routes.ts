@@ -10,48 +10,228 @@ import { RouteRecordRaw } from 'vue-router'
  * 若含有 children 路由，则需要将 redirect 设置为 children[0] 的 path 路径
  */
 
+// 系统管理
+const systemManagement = [
+  {
+    path: 'system',
+    component: CustomLayout,
+    children: [
+      {
+        path: 'job-log',
+        name: 'SystemManagementJobLog',
+        meta: {
+          title: 'Quartz日志'
+        },
+        component: () => import('@/modules/SystemManagement/pages/job-log.vue')
+      },
+      {
+        path: 'task-management',
+        name: 'SystemManagementTaskManagement',
+        meta: {
+          title: '定时任务'
+        },
+        component: () => import('@/modules/SystemManagement/pages/task-management.vue')
+      },
+      {
+        path: 'organizational',
+        name: 'SystemManagementOrganizational',
+        meta: {
+          title: '组织机构管理'
+        },
+        component: () => import('@/modules/SystemManagement/pages/organizational.vue')
+      },
+      {
+        path: 'log',
+        name: 'SystemManagementLog',
+        meta: {
+          title: '日志管理'
+        },
+        component: () => import('@/modules/SystemManagement/pages/log.vue')
+      },
+      {
+        path: 'user',
+        name: 'SystemManagementUser',
+        meta: {
+          title: '用户管理'
+        },
+        component: () => import('@/modules/SystemManagement/pages/user.vue')
+      },
+      {
+        path: 'role',
+        name: 'SystemManagementRole',
+        meta: {
+          title: '角色管理'
+        },
+        component: () => import('@/modules/SystemManagement/pages/role.vue')
+      },
+      {
+        path: 'menu',
+        name: 'SystemManagementMenu',
+        meta: {
+          title: '菜单管理'
+        },
+        component: () => import('@/modules/SystemManagement/pages/menu.vue')
+      },
+      {
+        path: 'dictionary',
+        name: 'SystemManagementDictionary',
+        meta: {
+          title: '字典管理'
+        },
+        component: () => import('@/modules/SystemManagement/pages/dictionary.vue')
+      }
+    ]
+  }
+]
+
+// 过程参数监控
+const processMonitoring = [
+  {
+    path: 'process-monitoring',
+    component: CustomLayout,
+    children: [
+      {
+        path: '',
+        name: 'ProcessMonitoringMonitor',
+        meta: {
+          title: '炉台'
+        },
+        component: () => import('@/modules/Monitor/pages/index.vue')
+      },
+      {
+        path: 'setting',
+        name: 'ProcessMonitoringMonitorSetting',
+        meta: {
+          title: '阈值配置'
+        },
+        component: () => import('@/modules/Monitor/pages/setting.vue')
+      },
+      {
+        path: 'alarm',
+        name: 'ProcessMonitoringMonitorAlarm',
+        meta: {
+          title: '告警列表'
+        },
+        component: () => import('@/modules/Monitor/pages/alarm.vue')
+      }
+    ]
+  }
+]
+
+// 工艺SOP监控
+const SOPMonitoring = [
+  {
+    path: 'sop-monitoring',
+    component: CustomLayout,
+    children: [
+      {
+        path: 'parameter',
+        name: 'SOPMonitoringParameter',
+        meta: {
+          title: 'SOP参数异常监控'
+        },
+        component: () => import('@/modules/Monitor/pages/sop-monitoring.vue')
+      }
+    ]
+  }
+]
+
+// 原料审批
+const materialApproval = [
+  {
+    path: 'material-approval',
+    component: CustomLayout,
+    children: [
+      {
+        path: 'approval',
+        name: 'MaterialApprovalApproval',
+        meta: {
+          title: '审批方案版本列表'
+        },
+        component: () => import('@/modules/MaterialApproval/pages/approval.vue')
+      },
+      {
+        path: 'formula',
+        name: 'MaterialApprovalFormula',
+        meta: {
+          title: '新建方案'
+        },
+        component: () => import('@/modules/MaterialApproval/pages/formula.vue')
+      }
+    ]
+  }
+]
+
+// sop比对
+const SopComparison = [
+  {
+    path: 'SopComparison',
+    component: CustomLayout,
+    children: [
+      {
+        path: 'soplist',
+        name: 'soplist',
+        meta: {
+          title: 'sop列表'
+        },
+        component: () => import('@/modules/SopComparison/pages/soplist.vue')
+      }
+    ]
+  }
+]
+
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     component: Layout,
-    redirect: '/login',
     children: [
       {
-        path: 'demo',
-        component: CustomLayout,
-        children: [
-          {
-            path: '',
-            name: 'demo',
-            component: () => import('@/modules/DemoTest2/pages/list.vue'),
-          }
-        ]
-      },
-      {
-        path: 'test',
-        component: () => import('@/modules/ModalWrapper/pages/test.vue')
-      },
-      {
         path: 'login',
+        name: 'Login',
+        meta: {
+          title: '登录'
+        },
         component: () => import('@/modules/Account/pages/login.vue')
       },
       {
-        path: 'monitor',
+        path: 'home',
+        name: 'Home',
+        meta: {
+          title: 'Home'
+        },
         component: CustomLayout,
         children: [
           {
             path: '',
-            name: 'monitor',
-            component: () => import('@/modules/Monitor/pages/index.vue')
+            name: 'HomePage',
+            meta: {
+              title: '登录'
+            },
+            component: () => import('@/modules/Home/page/home.vue')
           }
         ]
-      }
+      },
+      ...systemManagement,
+      ...processMonitoring,
+      ...SOPMonitoring,
+      ...materialApproval,
+      ...SopComparison
     ]
+  },
+  {
+    path: '/403',
+    name: '403',
+    component: defineAsyncComponent(() => import('@/components/ExceptionHandling/403.vue'))
+  },
+  {
+    path: '/500',
+    name: '500',
+    component: defineAsyncComponent(() => import('@/components/ExceptionHandling/500.vue'))
   },
   {
     path: '/:pathMatch(.*)*',
     name: '404',
-    component: defineAsyncComponent(() => import('comps/404.vue'))
+    component: defineAsyncComponent(() => import('@/components/ExceptionHandling/404.vue'))
   }
 ]
 
