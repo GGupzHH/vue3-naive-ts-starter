@@ -5,6 +5,7 @@ import Components from 'unplugin-vue-components/vite'
 import UnoCSS from 'unocss/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
+import { viteMockServe } from 'vite-plugin-mock'
 import path from 'path'
 
 const htmlPlugin = () => ({
@@ -14,8 +15,13 @@ const htmlPlugin = () => ({
   }
 })
 
-export default defineConfig(({ mode }) => ({
+export default defineConfig(({ mode, command }) => ({
   plugins: [
+    viteMockServe({
+      mockPath: 'mock', // 你的mock文件存放目录
+      enable: command === 'serve', // 确保只在开发环境中启用
+      watchFiles: true // 启用文件监视，当 mock 文件变化时自动重载
+    }),
     vue({
       script: {
         defineModel: true
