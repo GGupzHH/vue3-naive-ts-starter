@@ -3,7 +3,7 @@
     class="wrap-login w-100% h-100%"
   >
     <div class="wrap-login__content w-438px h-424px bg-white border-rd-12px absolute top-50% right-100px py-60px px-34px">
-      <h1 class="text-center">FDC-缺陷分类监控系统</h1>
+      <h1 class="text-center">系统管理模板</h1>
       <div class="wrap-title flex flex-items-center m-t-12px">
         <LoginTitleSvg />
         <span class="color-#303133 text-18px pl-12px">欢迎登录</span>
