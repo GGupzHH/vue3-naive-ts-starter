@@ -299,6 +299,96 @@ const sysMocks: MockMethod[] = [
     }
   },
   {
+    url: '/api/admin/dict/item/page',
+    method: 'get',
+    response: () => {
+      return {
+        'code': 200,
+        'message': null,
+        'data': {
+          'records': [
+            {
+              'id': 624,
+              'dictId': 124,
+              'value': '0',
+              'label': '公司',
+              'type': 'org_type',
+              'description': '',
+              'sort': 0,
+              'createTime': '2024-07-04 17:01:12',
+              'updateTime': '2024-07-04 17:01:12',
+              'remarks': 'primary',
+              'delFlag': '0',
+              'tenantId': 0
+            },
+            {
+              'id': 625,
+              'dictId': 124,
+              'value': '1',
+              'label': '工厂',
+              'type': 'org_type',
+              'description': '',
+              'sort': 0,
+              'createTime': '2024-07-04 17:01:21',
+              'updateTime': '2024-07-04 17:01:21',
+              'remarks': 'success',
+              'delFlag': '0',
+              'tenantId': 0
+            },
+            {
+              'id': 626,
+              'dictId': 124,
+              'value': '2',
+              'label': '供应商',
+              'type': 'org_type',
+              'description': '',
+              'sort': 0,
+              'createTime': '2024-07-04 17:01:32',
+              'updateTime': '2024-07-04 17:01:32',
+              'remarks': 'default',
+              'delFlag': '0',
+              'tenantId': 0
+            },
+            {
+              'id': 627,
+              'dictId': 124,
+              'value': '3',
+              'label': '部门',
+              'type': 'org_type',
+              'description': '',
+              'sort': 0,
+              'createTime': '2024-07-04 17:01:44',
+              'updateTime': '2024-07-04 17:01:44',
+              'remarks': 'warning',
+              'delFlag': '0',
+              'tenantId': 0
+            }
+          ],
+          'total': 4,
+          'size': 10,
+          'current': 1,
+          'orders': [],
+          'optimizeCountSql': true,
+          'searchCount': true,
+          'countId': null,
+          'maxLimit': null,
+          'pages': 1
+        }
+      }
+    }
+  },
+  {
+    url: '/api/admin/dict/:id',
+    method: 'delete',
+    response: () => {
+      return {
+        'code': 200,
+        'message': null,
+        'data': null
+      }
+    }
+  },
+  {
     url: '/api/updateUser',
     method: 'post',
     response: ({ body }) => {
