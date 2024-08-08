@@ -55,7 +55,8 @@ jobs:
           path: ./dist
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+        uses: JamesIves/github-pages-deploy-action@v4.6.3
         with:
-          github_token: ${{ secrets.VUE3_NAIVE_TS_TOKEN }}
-          publish_dir: ./dist
+          branch: gh-pages  # 部署到 gh-pages 分支
+          folder: dist  # 部署文件夹
+          token: ${{ secrets.VUE3_NAIVE_TS_TOKEN }}  # 使用你的 GitHub Token
