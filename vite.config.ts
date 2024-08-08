@@ -11,7 +11,7 @@ import path from 'path'
 const htmlPlugin = () => ({
   name: 'html-transform',
   transformIndexHtml(html) {
-    return html.replace(/<title>(.*?)<\/title>/, '<title>FDC-缺陷分类监控系统</title>')
+    return html.replace(/<title>(.*?)<\/title>/, '<title>Vue3-naive-ts-starter</title>')
   }
 })
 
