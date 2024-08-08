@@ -16,10 +16,12 @@ const htmlPlugin = () => ({
 })
 
 export default defineConfig(({ mode, command }) => ({
+  base: '/vue3-naive-ts-starter',
   plugins: [
     viteMockServe({
       mockPath: 'mock', // 你的mock文件存放目录
-      enable: command === 'serve', // 确保只在开发环境中启用
+      // enable: command === 'serve', // 确保只在开发环境中启用
+      enable: true, // 确保只在开发环境中启用
       watchFiles: true // 启用文件监视，当 mock 文件变化时自动重载
     }),
     vue({
