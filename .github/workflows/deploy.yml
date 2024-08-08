@@ -16,12 +16,23 @@ jobs:
 
       - name: Setup Node
         uses: actions/setup-node@v3
+        with: 
+          node-version: '18'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4.0.0
+        with:
+          version: '7.0.0'  # 指定要安装的 pnpm 版本
+          dest: '~/setup-pnpm'  # 可选，pnpm 文件存储路径，默认为 ~/setup-pnpm
+          run_install: 'true'  # 可选，是否运行 `pnpm install` 命令
+          package_json_file: 'package.json'  # 可选，指定 package.json 文件路径
+          standalone: 'false'  # 可选，是否安装 @pnpm/exe 以便在没有 Node.js 的情况下使用 pnpm
 
       - name: Install dependencies
-        uses: bahmutov/npm-install@v1
+        run: pnpm install  # 使用 pnpm 安装依赖
 
       - name: Build project
-        run: npm run build --base=./
+        run: pnpm run build --base=./  # 使用 pnpm 运行构建命令
 
       - name: Upload production-ready build files
         uses: actions/upload-artifact@v3
