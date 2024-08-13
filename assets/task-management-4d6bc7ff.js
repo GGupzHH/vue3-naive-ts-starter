@@ -1,0 +1,1 @@
+import{g as n,E as a,A as t,B as s}from"./index-d3fab68d.js";const m=n({name:"SystemManagementTaskManagement"}),p=n({...m,setup(o){var e;return(e=a())==null||e.proxy,(r,c)=>(t(),s("div",null," SystemManagementTaskManagement 定时任务 "))}});export{p as default};
