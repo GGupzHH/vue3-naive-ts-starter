@@ -16,7 +16,7 @@ const htmlPlugin = () => ({
 })
 
 export default defineConfig(({ mode, command }) => ({
-  base: '/vue3-naive-ts-starter',
+  base: '/vue3-naive-ts-starter/',
   plugins: [
     viteMockServe({
       mockPath: 'mock', // 你的mock文件存放目录

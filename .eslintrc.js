@@ -130,8 +130,6 @@ module.exports = {
   },
   globals: {
     SystemManagement: 'readonly',
-    MaterialApproval: 'readonly',
-    SopComparison: 'readonly',
     NaiveUI: 'readonly',
     Account: 'readonly'
   }
