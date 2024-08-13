@@ -84,102 +84,6 @@ const systemManagement = [
   }
 ]
 
-// 过程参数监控
-const processMonitoring = [
-  {
-    path: 'process-monitoring',
-    component: CustomLayout,
-    children: [
-      {
-        path: '',
-        name: 'ProcessMonitoringMonitor',
-        meta: {
-          title: '炉台'
-        },
-        component: () => import('@/modules/Monitor/pages/index.vue')
-      },
-      {
-        path: 'setting',
-        name: 'ProcessMonitoringMonitorSetting',
-        meta: {
-          title: '阈值配置'
-        },
-        component: () => import('@/modules/Monitor/pages/setting.vue')
-      },
-      {
-        path: 'alarm',
-        name: 'ProcessMonitoringMonitorAlarm',
-        meta: {
-          title: '告警列表'
-        },
-        component: () => import('@/modules/Monitor/pages/alarm.vue')
-      }
-    ]
-  }
-]
-
-// 工艺SOP监控
-const SOPMonitoring = [
-  {
-    path: 'sop-monitoring',
-    component: CustomLayout,
-    children: [
-      {
-        path: 'parameter',
-        name: 'SOPMonitoringParameter',
-        meta: {
-          title: 'SOP参数异常监控'
-        },
-        component: () => import('@/modules/Monitor/pages/sop-monitoring.vue')
-      }
-    ]
-  }
-]
-
-// 原料审批
-const materialApproval = [
-  {
-    path: 'material-approval',
-    component: CustomLayout,
-    children: [
-      {
-        path: 'approval',
-        name: 'MaterialApprovalApproval',
-        meta: {
-          title: '审批方案版本列表'
-        },
-        component: () => import('@/modules/MaterialApproval/pages/approval.vue')
-      },
-      {
-        path: 'formula',
-        name: 'MaterialApprovalFormula',
-        meta: {
-          title: '新建方案'
-        },
-        component: () => import('@/modules/MaterialApproval/pages/formula.vue')
-      }
-    ]
-  }
-]
-
-// sop比对
-const SopComparison = [
-  {
-    path: 'SopComparison',
-    component: CustomLayout,
-    children: [
-      {
-        path: 'soplist',
-        name: 'soplist',
-        meta: {
-          title: 'sop列表'
-        },
-        component: () => import('@/modules/SopComparison/pages/soplist.vue')
-      }
-    ]
-  }
-]
-
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
@@ -211,11 +115,7 @@ const routes: Array<RouteRecordRaw> = [
           }
         ]
       },
-      ...systemManagement,
-      ...processMonitoring,
-      ...SOPMonitoring,
-      ...materialApproval,
-      ...SopComparison
+      ...systemManagement
     ]
   },
   {
