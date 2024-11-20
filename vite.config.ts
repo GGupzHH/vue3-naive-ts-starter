@@ -69,17 +69,17 @@ export default defineConfig(({ mode, command }) => ({
       resolvers: [NaiveUiResolver()]
     })
   ],
-  server: {
-    proxy: {
-      '/api': {
-        // target: 'http://localhost:8088',
-        target: 'http://10.160.10.219:8088',
-        // target: 'http://10.200.214.244:8081',
-        changeOrigin: true,
-        rewrite: path => path.replace(/^\/api/, '/api')
-      }
-    }
-  },
+  // server: {
+  //   proxy: {
+  //     '/api': {
+  //       // target: 'http://localhost:8088',
+  //       target: 'http://10.160.10.219:8088/',
+  //       // target: 'http://10.200.214.244:8081',
+  //       changeOrigin: true,
+  //       rewrite: path => path.replace(/^\/api/, '')
+  //     }
+  //   }
+  // },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),

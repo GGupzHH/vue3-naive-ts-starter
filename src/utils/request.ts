@@ -56,7 +56,7 @@ const codeMessage: {
 const service: AxiosInstance = axios.create({
   // api 的 base_url
   // baseURL: import.meta.env.MODE === 'development' ? '' : import.meta.env.VITE_BASE_API,
-  baseURL: '/vue3-naive-ts-starter',
+  // baseURL: import.meta.env.VITE_BASE_API,
   // 请求超时时间
   timeout: 6000000
 })

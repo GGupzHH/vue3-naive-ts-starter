@@ -106,6 +106,53 @@ const useAccountStore = useAccount()
 
 const userInfo = computed(() => useAccountStore.userInfo)
 
+if ('serial' in navigator) {
+  console.log('Web Serial API is supported.')
+} else {
+  console.error('Web Serial API is not supported in this browser.')
+}
+
+const serialData = ref('') // 存储从串口读取的数据
+
+// 连接串口并读取数据的函数
+const connectToSerial = async() => {
+  try {
+    // 请求串口权限
+    const port = await navigator.serial.requestPort()
+    // 设置串口通信的波特率
+    await port.open({ baudRate: 9600 })
+
+    // 获取读取器以接收数据
+    const reader = port.readable.getReader()
+
+    while (true) {
+      // 从串口中读取数据
+      const { value, done } = await reader.read()
+      if (done) {
+        // 如果读取完成，退出循环
+        console.log('串口读取完成')
+        break
+      }
+      console.log(done)
+      console.log(new TextDecoder().decode(value))
+      console.log(new TextDecoder().decode(value).length)
+      // 将数据更新到界面上
+      serialData.value += new TextDecoder().decode(value)
+    }
+
+    // 关闭读取器
+    reader.releaseLock()
+  } catch (error) {
+    console.error('串口连接失败：', error)
+  }
+}
+
+onMounted(() => {
+  if (!('serial' in navigator)) {
+    console.error('Web Serial API 不支持当前浏览器')
+  }
+})
+
 </script>
 <template>
   <div class="flex-vertical-stretch gap-16px overflow-hidden <sm:overflow-auto">
@@ -153,6 +200,10 @@ const userInfo = computed(() => useAccountStore.userInfo)
       </NGrid>
     </NCard>
 
+    <div>
+      <button @click="connectToSerial">连接串口</button>
+      <p>串口信息：{{ serialData }}</p>
+    </div>
     <NCard
       :bordered="false"
       size="small"
