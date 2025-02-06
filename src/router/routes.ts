@@ -98,18 +98,18 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/modules/Account/pages/login.vue')
       },
       {
-        path: 'home',
-        name: 'Home',
+        path: '/data-base',
+        name: 'DataBase',
         meta: {
-          title: 'Home'
+          title: '首页'
         },
         component: CustomLayout,
         children: [
           {
             path: '',
-            name: 'HomePage',
+            name: 'DataBasePage',
             meta: {
-              title: '登录'
+              title: '首页'
             },
             component: () => import('@/modules/Home/page/home.vue')
           }

@@ -1,6 +1,6 @@
 
-@use '@/styles/global-class.scss';
-@use '@/styles/theme.scss';
+@import '@/styles/global-class.scss';
+@import '@/styles/theme.scss';
 
 body {
   width: 100vw;

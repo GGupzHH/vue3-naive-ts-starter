@@ -56,7 +56,7 @@ const codeMessage: {
 const service: AxiosInstance = axios.create({
   // api 的 base_url
   // baseURL: import.meta.env.MODE === 'development' ? '' : import.meta.env.VITE_BASE_API,
-  // baseURL: import.meta.env.VITE_BASE_API,
+  baseURL: import.meta.env.VITE_BASE_API,
   // 请求超时时间
   timeout: 6000000
 })
@@ -137,7 +137,7 @@ service.interceptors.response.use(
         code: 0
       }
     }
-    if (data.code === (401 || 403)) {
+    if ((data.code === 401) || (data.code === 403)) {
       return {
         data: {},
         code: data.code,

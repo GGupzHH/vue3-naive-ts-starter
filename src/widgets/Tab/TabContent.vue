@@ -54,7 +54,7 @@ const findTabIndex = (path: string):number => {
  */
 const handleAddTabList = (currentRoute: globalThis.RouteLocationNormalizedLoaded) => {
   const findTabItemIndex = findTabIndex(currentRoute.fullPath)
-  if (findTabItemIndex === -1 && currentRoute.fullPath !== '/home') {
+  if (findTabItemIndex === -1 && currentRoute.fullPath !== '/data-base') {
     tabList.push({
       path: currentRoute.fullPath,
       title: currentRoute.meta.title as string
@@ -90,7 +90,7 @@ const handleTabClose = (tabListItem: ITabItem) => {
       replaceTabIndex.value = findTabItemIndex - 1
     }
     router.push({
-      path: tabList[replaceTabIndex.value]?.path || '/home'
+      path: tabList[replaceTabIndex.value]?.path || '/data-base'
     })
   }
 }

@@ -16,7 +16,6 @@ const htmlPlugin = () => ({
 })
 
 export default defineConfig(({ mode, command }) => ({
-  base: '/vue3-naive-ts-starter/',
   plugins: [
     viteMockServe({
       mockPath: 'mock', // 你的mock文件存放目录
@@ -73,7 +72,7 @@ export default defineConfig(({ mode, command }) => ({
   //   proxy: {
   //     '/api': {
   //       // target: 'http://localhost:8088',
-  //       target: 'http://10.160.10.219:8088/',
+  //       target: 'http://10.160.10.219:8088',
   //       // target: 'http://10.200.214.244:8081',
   //       changeOrigin: true,
   //       rewrite: path => path.replace(/^\/api/, '')
