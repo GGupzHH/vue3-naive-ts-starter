@@ -2,7 +2,7 @@
   <div class="wrap-tabs">
     <TabHeader />
     <TabContent />
-<!--    <TabFooter />-->
+    <!--    <TabFooter />-->
   </div>
   <n-divider class="m-0px! " />
 </template>

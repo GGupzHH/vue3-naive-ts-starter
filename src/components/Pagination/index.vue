@@ -1,7 +1,7 @@
 <template>
   <div class="custom-pagination">
     <el-pagination
-      v-model:currentPage="_currentPage"
+      v-model:current-page="_currentPage"
       background
       :page-size="limit"
       :page-sizes="pageSizes"

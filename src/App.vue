@@ -29,5 +29,5 @@ const themeStore = useTheme()
 subscribeStore()
 </script>
 <style lang="scss">
-@import '@/styles/index.scss'
+@use '@/styles/index.scss'
 </style>

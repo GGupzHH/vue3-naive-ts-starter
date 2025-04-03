@@ -1,16 +1,16 @@
 const removeNode = el => {
-  let parentNode = el.parentNode;
+  const parentNode = el.parentNode
   if (
-      el.children.length > 0 &&
-      el.children[0].className.includes("el-switch")
+    el.children.length > 0 &&
+      el.children[0].className.includes('el-switch')
   ) {
-      el.parentNode.hasDeletedNode = true;
-      let firstChild = el.children[0];
-      el.removeChild(firstChild);
+    el.parentNode.hasDeletedNode = true
+    const firstChild = el.children[0]
+    el.removeChild(firstChild)
   } else {
-      parentNode && !parentNode.hasDeletedNode && parentNode.removeChild(el);
+    parentNode && !parentNode.hasDeletedNode && parentNode.removeChild(el)
   }
-};
+}
 
 const nodeOperator = (el, binding) => {
   removeNode(el)
