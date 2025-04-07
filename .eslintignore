@@ -2,3 +2,5 @@
 build/*.js
 config/*.js
 node_modules/*.js
+/src/plugins/ModalDialog/*.vue
+/src/assets/fonts/*.js

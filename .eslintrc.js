@@ -126,6 +126,9 @@ module.exports = {
       },
       svg: 'always',
       math: 'always'
+    }],
+    'vue/no-unused-properties': ['error', {
+      groups: ['props', 'setup']
     }]
   },
   globals: {

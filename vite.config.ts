@@ -6,6 +6,7 @@ import UnoCSS from 'unocss/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 import { viteMockServe } from 'vite-plugin-mock'
+import { codeInspectorPlugin } from 'code-inspector-plugin';
 import path from 'path'
 
 const htmlPlugin = () => ({
@@ -17,6 +18,9 @@ const htmlPlugin = () => ({
 
 export default defineConfig(({ mode, command }) => ({
   plugins: [
+    codeInspectorPlugin({
+      bundler: 'vite',
+    }),
     viteMockServe({
       mockPath: 'mock', // 你的mock文件存放目录
       // enable: command === 'serve', // 确保只在开发环境中启用
